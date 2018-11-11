@@ -1,0 +1,45 @@
+%{
+	/* Definitions and statements */
+	#include "step3.tab.h"
+	//extern YYSTYPE yylval;
+	YYSTYPE yylval;
+%}
+
+ID     	{letter}{letter}*
+NUM    	{digit}{digit}*
+letter 	[a-zA-Z]
+digit  	[0-9]
+
+%option yylineno
+%option noyywrap
+
+%%
+"if"								{ return T_IF;	 	}
+"else"								{ return T_ELSE; 	}
+"int"								{ return T_INT; 	}
+"return" 							{ return T_RETURN;  }
+"void"								{ return T_VOID;    }
+"while"								{ return T_WHILE;   }
+"+"									{ return yytext[0]; }
+"-"									{ return yytext[0]; }
+"*"									{ return yytext[0]; }
+"/"									{ return yytext[0];	}
+">"									{ return T_GREAT;   }
+">="								{ return T_GREATEQ; }
+"<"									{ return T_SMALL;   }
+"<="								{ return T_SMALLEQ; }
+"=="								{ return T_COMPARE; }
+"!="								{ return T_NOTEQ;   }
+"="									{ return yytext[0]; }
+";"									{ return yytext[0]; }
+","									{ return yytext[0]; }
+"("									{ return yytext[0]; }
+")"									{ return yytext[0]; }
+"["									{ return yytext[0]; }
+"]"									{ return yytext[0]; }
+"{"									{ return yytext[0]; }
+"}"									{ return yytext[0]; }
+
+{ID}		{ yylval.string=strdup(yytext); return T_ID;	}
+{NUM}		{ yylval.value=atoi((const char *)yytext); return T_NUM;  	}
+%%
